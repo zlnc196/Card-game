@@ -4,7 +4,7 @@ use rand::{rng, seq::IteratorRandom, Rng};
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
-#[derive(Debug, EnumIter)]
+#[derive(Debug, EnumIter, Clone, Copy)]
 enum Suits {
     heart,
     diamond,
@@ -38,15 +38,14 @@ fn suitToString(suit: Suits) -> String {
 
 }
 
-fn announceCard(card: Card) {
-    println!("Suit is {} and Number is {}", suitToString(card.suit), card.number)
-} 
-
-
-
+impl Card {
+    fn announceCard(&self) {
+        println!("Suit is {} and Number is {}", suitToString(self.suit), self.number)
+    } 
+}
 
 fn main() {
     let card1 = generateCard();
-    announceCard(card1);
+    card1.announceCard();   
 }
 
