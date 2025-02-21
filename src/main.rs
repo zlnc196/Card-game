@@ -45,6 +45,12 @@ impl Card {
     } 
 }
 
+fn announceDeck(deck: [Card;5]) {
+    for item in deck.iter() {
+        item.announceCard();
+    }
+}
+
 fn generateDeck() -> [Card;5] {
     [generateCard(), generateCard(), generateCard(), generateCard(), generateCard()]
 }
@@ -65,11 +71,17 @@ fn shuffleCards(cardList: [Card;5]) -> [Option<Card>;5] {
     dupCardList
 }
 
+fn selectRandomCard(deck: [Card;5]) -> Card {
+    let index = rng().random_range(0..5);
+    deck[index]
+}
+
 fn main() {
     let card1 = generateCard();
     card1.announceCard();   
     let cardList: [Card; 5] = generateDeck();
-    println!("{:?}", cardList);
-    println!("{:?}", shuffleCards(cardList));
+    announceDeck(cardList);
+    //println!("{:?}", shuffleCards(cardList));
+    selectRandomCard(cardList).announceCard();
 }
 
