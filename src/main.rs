@@ -1,10 +1,10 @@
 use std::default;
 
-use rand::{rng, seq::IteratorRandom, Rng};
+use rand::{random_range, rng, seq::IteratorRandom, Rng};
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
-#[derive(Debug, EnumIter, Clone, Copy)]
+#[derive(Debug, EnumIter, Clone, Copy, PartialEq)]
 enum Suits {
     heart,
     diamond,
@@ -12,6 +12,7 @@ enum Suits {
     clubs
 }
 
+#[derive(Debug, Clone, Copy, PartialEq)]
 struct Card {
     suit: Suits,
     number:i8,
@@ -44,8 +45,31 @@ impl Card {
     } 
 }
 
+fn generateDeck() -> [Card;5] {
+    [generateCard(), generateCard(), generateCard(), generateCard(), generateCard()]
+}
+
+fn shuffleCards(cardList: [Card;5]) -> [Option<Card>;5] {
+    let mut dupCardList: [Option<Card>; 5] = [None;5];
+    for i in 0..5 {
+        let mut valid = false;
+        while !(valid) {
+            let position = rng().random_range(0..5);
+            if dupCardList[position] == None {
+                dupCardList[position] = Some(cardList[i]);
+                valid = true
+            }
+        }
+    }
+
+    dupCardList
+}
+
 fn main() {
     let card1 = generateCard();
     card1.announceCard();   
+    let cardList: [Card; 5] = generateDeck();
+    println!("{:?}", cardList);
+    println!("{:?}", shuffleCards(cardList));
 }
 
